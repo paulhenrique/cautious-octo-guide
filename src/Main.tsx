@@ -21,10 +21,18 @@ const defaultUser = {
 export default function Main() {
   const [data, setData] = React.useState<User>(defaultUser);
   const getData = async () => {
-    const data = await api.get<User>('/characters');
-    const userData: User = data.data;
-    setData(userData);
-    console.log('here', userData);
+    try {
+      const data = await api.get('characters', {
+        params: {
+          limit: 8,
+          offset: 0
+        }
+      });
+
+      console.log('here', data);
+    } catch (err) {
+      console.error('erro', err);
+    }
   }
 
   React.useEffect(() => {
@@ -33,7 +41,7 @@ export default function Main() {
 
   return (
     <View style={styles.container}>
-      <Text>Hello World</Text>
+      <Text>Teste de atualização</Text>
       <Text style={{ backgroundColor: 'red', color: 'white' }}>{data.name}</Text>
       <StatusBar style="auto" />
     </View>);
