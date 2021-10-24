@@ -11,7 +11,10 @@ export interface Character {
   name: string;
   description: string;
   resourceURI: string;
-  thumbnail: string;
+  thumbnail: {
+    path: string;
+    extension: string;
+  };
 }
 
 export interface Response {

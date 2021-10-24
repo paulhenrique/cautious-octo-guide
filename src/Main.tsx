@@ -1,9 +1,21 @@
-import axios from 'axios';
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import api, { Response, Character } from './services/api';
+import Card from './components/Card';
+import styled from 'styled-components/native';
 
+const ContainerCards = styled.ScrollView`
+background-color:#001609;
+height: 100%;
+padding:20px;
+`;
+
+const HeaderText = styled.Text`
+  font-size:32px;
+  margin-top:32px;
+  color:white;
+  margin-bottom:20px;
+`;
 export default function Main() {
   const [data, setData] = React.useState<Character[]>([]);
   const getData = async () => {
@@ -25,17 +37,11 @@ export default function Main() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      {data.map((char) => <Text style={{ backgroundColor: 'red', color: 'white' }}>({char?.name})</Text>)}
-      <StatusBar style="auto" />
-    </View>);
+    <>
+      <ContainerCards>
+        <HeaderText>Marvel Strike Team</HeaderText>
+        {data.map((char) => <Card character={char} />)}
+      </ContainerCards>
+    </>
+  );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
