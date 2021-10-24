@@ -2,34 +2,19 @@ import axios from 'axios';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import api from './services/api';
-
-interface User {
-  login: string;
-  name: string;
-  company: string;
-  bio: string;
-}
-
-const defaultUser = {
-  login: '',
-  name: '',
-  company: '',
-  bio: '',
-}
+import api, { Response, Character } from './services/api';
 
 export default function Main() {
-  const [data, setData] = React.useState<User>(defaultUser);
+  const [data, setData] = React.useState<Character[]>([]);
   const getData = async () => {
     try {
-      const data = await api.get('characters', {
+      const { data: { data: { results } } } = await api.get<Response>('characters', {
         params: {
           limit: 8,
           offset: 0
         }
       });
-
-      console.log('here', data);
+      setData(results);
     } catch (err) {
       console.error('erro', err);
     }
@@ -41,8 +26,7 @@ export default function Main() {
 
   return (
     <View style={styles.container}>
-      <Text>Teste de atualização</Text>
-      <Text style={{ backgroundColor: 'red', color: 'white' }}>{data.name}</Text>
+      {data.map((char) => <Text style={{ backgroundColor: 'red', color: 'white' }}>({char?.name})</Text>)}
       <StatusBar style="auto" />
     </View>);
 }
