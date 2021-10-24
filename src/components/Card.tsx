@@ -19,7 +19,6 @@ font-size:18px;
 padding: 10px;
 `;
 
-
 const CardDescription = styled.Text`
 color:white;
 font-size:14px;
